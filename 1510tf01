@@ -1,0 +1,31 @@
+from ast import increment_lineno
+import pandas as pd
+import numpy as np
+from sklearn import linear_model
+
+df =pd.read_excel("/content/DataCar.xlsx")
+headers = list(df)
+print(headers)
+x=df[['Volume', 'CO2']]
+print(x)
+y=df[['Weight']]
+print(y)
+
+myregr = linear_model.LinearRegression()
+myregr.fit(x,y)
+
+resultCO2 = myregr.predict([[1200,60]])
+print(resultCO2)
+
+def histogram_intersection(a,b):
+  v = np.minimum(a,b).sum().round(decimals=1)
+  return v
+
+df1 = df[['Volume','Weight', 'CO2']]
+df1.corr(method=histogram_intersection)
+print(df1.corr())
+
+import seaborn as sns
+%matplotlib inline 
+corr = df1.select_dtypes('number').corr()
+sns.heatmap(corr)
